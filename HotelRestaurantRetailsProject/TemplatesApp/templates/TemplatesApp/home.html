@@ -1,0 +1,77 @@
+
+{% extends 'TemplatesApp/base.html' %}
+{% load static %}
+
+
+
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Easy-Fix</title>
+    
+  </head>
+  <body>
+    
+
+
+
+{% include 'TemplatesApp/sideBar.html' %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div class="main-panel">
+          <div class="content-wrapper pb-0">
+
+
+
+
+      <div class="home-page-header ">
+        <h4 class="home-page-header-title"> Welcome back to TrackSol System 
+        </h4>
+       
+  <h4 class="home-page-left-title">You are logged in as <span class="home-page-right-title">{{user.company_name}}</span></h4>
+
+    <h4 class="home-page-left-title">You are logged in since <span class="home-page-right-title">{{user.last_login}}</span></h4>
+
+
+     <h4 class="home-page-left-title">Application Version <span class="home-page-right-title">2.0<span></h4>
+
+     <h4 class="home-page-left-title">Application Patch Version <span class="home-page-right-title">20/12/2017<span></h4>
+
+
+      </div>
+
+
+
+
+
+
+
+
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    
+   
+  </body>
+</html>
+
+
+{% endblock %}

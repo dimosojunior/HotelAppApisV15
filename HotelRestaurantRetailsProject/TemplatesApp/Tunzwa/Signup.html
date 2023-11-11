@@ -1,0 +1,160 @@
+i'm using django apis and react native, i want to implement the following , in my HotelOrder model i have a field called CategoryId wich is empty iniatilly so the problem is, when user makes an order go to the HotelProducts model under productCategory field which is also the foreignkey field to the HotelCategories model, then copy productCategory Id and paste it into Category field of HotelOrder, so every time user makes an order perform that scenario, below aremy models;class HotelCategories(models.Model):
+    Inventory = models.ForeignKey(HotelInventory,verbose_name="Category", on_delete=models.CASCADE, blank=True,null=True)
+    Unit = models.ForeignKey(HotelProductsUnit,verbose_name="Product Unit", on_delete=models.PROTECT, blank=True,null=True)
+    #ProductCategory = models.ForeignKey(HotelInventory, verbose_name="Product Category",on_delete=models.CASCADE, blank=True,null=True)
+
+    CategoryName = models.CharField(verbose_name="Category Name", max_length=100,blank=False,null=False)
+    Store = models.IntegerField(verbose_name="Quantity in Store",blank=True,null=True)
+    CategoryImage = models.ImageField(verbose_name="Category Image", upload_to='media/Images/',blank=True,null=True)
+    Created = models.DateTimeField(auto_now_add=True)
+    Updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name_plural = "Hotel Categories"
+
+    def __str__(self):
+        return self.CategoryName
+class HotelProducts(models.Model):
+    StoreCode = models.ForeignKey(HotelStoreCode, verbose_name="Store Code",on_delete=models.CASCADE, blank=True,null=True)
+    StoreBinCode = models.ForeignKey(HotelStoreBinCode, verbose_name="Store Bin Code",on_delete=models.PROTECT, blank=True,null=True)
+    Unit = models.ForeignKey(HotelProductsUnit, verbose_name="Product Unit",on_delete=models.PROTECT, blank=True,null=True)
+
+    product_name = models.CharField(default="Wali", verbose_name="Product Name", max_length=100,blank=False,null=False)
+    product_second_name = models.CharField(default="",verbose_name="Product Second Name", max_length=100,blank=True,null=True)
+
+    # Product_Category_Choices = (
+    #     ('Pizza','Pizza'),
+    #     ('Other ', 'Other '),
+    #     )
+
+    productCategory = models.ForeignKey(HotelCategories,verbose_name="Product Category",on_delete=models.CASCADE, blank=True,null=True)
+    price = models.CharField(max_length=20,blank=True,null=True)
+    #ProductUnit = models.CharField(verbose_name="Product Unit", max_length=100,blank=True,null=True)
+    ProductQuantity = models.IntegerField(verbose_name="Product Quantity",blank=True,null=True)
+    InitialProductQuantity = models.IntegerField(verbose_name="Initial Product Quantity",blank=True,null=True)
+    CategoryImage = models.ImageField(verbose_name="Category Image", upload_to='media/HotelInventoryImages/',blank=True,null=True)
+    Created = models.DateTimeField(auto_now_add=True)
+    Updated = models.DateTimeField(auto_now=True)
+
+    
+    
+    class Meta:
+        verbose_name_plural = "Hotel  Products"
+        
+    
+    def __str__(self):
+        #return f" {self.product_name} {self.product_second_name} "
+        return f" {self.product_name} {self.product_second_name} "
+
+class HotelOrder(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,blank=True, null=True)
+    cart = models.ForeignKey(HotelCart, on_delete=models.CASCADE, blank=True, null=True)
+    #orderItems = models.ManyToManyField('HotelOrderItems', blank=True,null=True)
+    total_price = models.FloatField(verbose_name="Total Price")
+    
+    table_number = models.CharField(max_length=500, verbose_name="Table Number",blank=True,null=True)
+
+    Category = models.CharField(max_length=500, verbose_name=" Category",blank=True,null=True)
+    
+    room_number = models.CharField(max_length=500, verbose_name="Room Number",blank=True,null=True)
+    number_of_days = models.IntegerField(verbose_name="Number of days",blank=True,null=True)
+    room_price = models.FloatField(verbose_name="Room Price",blank=True,null=True)
+
+    pending_total_price = models.FloatField(verbose_name="Pending Total Price",blank=True,null=True)
+    true_total_price = models.FloatField(verbose_name="True Total Price",blank=True,null=True)
+
+    order_status = models.BooleanField(verbose_name="Status", default=False,blank=True,null=True)
+    closed_order_state = models.BooleanField(verbose_name="Is Order Closed ?", default=False,blank=True,null=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    #items = models.ForeignKey('HotelOrderItems', on_delete=models.CASCADE,blank=True, null=True)
+
+    class Meta:
+        verbose_name_plural = "Hotel  Orders"
+        #db_table='HotelOrderTable'
+
+    
+
+    def __str__(self):
+        return f"Order {self.id} by {self.user.username}"
+
+
+class HotelOrderItems(models.Model):
+    order = models.ForeignKey(HotelOrder, on_delete=models.CASCADE) 
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,blank=True, null=True)
+    product = models.ForeignKey(HotelProducts,on_delete=models.CASCADE)
+    price = models.FloatField(default=0)
+    Customer = models.ForeignKey(HotelCustomers,on_delete=models.CASCADE,blank=True,null=True)
+    table = models.ForeignKey(HotelTables,on_delete=models.PROTECT,blank=True,null=True)
+    room = models.ForeignKey('HotelRooms',on_delete=models.PROTECT,blank=True,null=True)
+    order_status = models.BooleanField(verbose_name="Status", default=False,blank=True,null=True)
+
+my views.py codes;
+class HotelOrderView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    
+
+
+
+    #----------------MAKE ORDER  WITHOUT ROOM --------------------
+    def post(self, request):
+        user = request.user
+        data = request.data
+
+        total_price = request.data.get('total_price', 0)  # You may calculate this on the server
+        cart = HotelCart.objects.filter(user=user, ordered=False).first()
+
+        #room = HotelRooms.objects.get(id=data.get('room'))
+        table = HotelTables.objects.get(id=data.get('table'))
+        #Customer = HotelCustomers.objects.get(id=data.get('Customer'))
+
+        # product = HotelProducts.objects.get(id=data.get('product'))
+        # print(f"PRODUCT NAME: {product.product_name}")
+
+        if not cart:
+            return Response({'error': 'No items in the cart'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Create an order
+        order = HotelOrder.objects.create(user=user, total_price=total_price,table_number=table.TableNumber)
+
+        total_cart_items = HotelCartItems.objects.filter(user=user)
+
+        total_price = 0
+        for items in total_cart_items:
+            total_price += items.price
+        order.total_price = total_price
+        order.save()
+
+        table.TableStatus = True
+        table.save()
+
+        # Retrieve cart items and add them to the order
+        cart_items = HotelCartItems.objects.filter(user=user, cart=cart)
+        for cart_item in cart_items:
+            HotelOrderItems.objects.create(
+                user=user,
+                order=order,
+                product=cart_item.product,
+                
+                price=cart_item.price,
+                quantity=cart_item.quantity,
+
+                #room=room,
+                table=table
+                #Customer=Customer
+                # CustomerFullName=cart_item.CustomerFullName,
+                # CustomerAddress=cart_item.CustomerAddress,
+                # PhoneNumber=cart_item.PhoneNumber
+            )
+
+        # Clear the user's cart
+        cart_items.delete()
+        cart.total_price = 0
+        cart.ordered = True
+        cart.save()
+
+        return Response(HotelOrderSerializer(order).data, status=status.HTTP_201_CREATED)
+
+

@@ -1,0 +1,197 @@
+
+{% extends 'TemplatesApp/base.html' %}
+{% load static %}
+
+
+
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Users</title>
+
+    <style type="text/css">
+
+  /**{
+    font-family: serif;
+  }
+
+.registration-form{
+  background-color: ;
+
+}
+      
+input{
+  padding: 10px;
+  border-radius:10px;
+  border:1px solid green;
+  width:90%;
+
+}
+select{
+  width: 90%;
+  padding: 10px;
+  border-radius: 10px;
+  border:1px solid green;
+
+}
+
+input::placeholder{
+  color: green;
+  font-size: 16px;
+
+}
+.form-card-title{
+  font-size: 16px;
+  color: green;
+}
+.reg-form-label{
+  text-align: center;
+}
+
+.error-message-container{
+  margin-bottom: 15px;
+
+}
+.error-message{
+  font-size: 14px;
+  color: red;
+}
+*/
+ 
+    </style>
+    
+  </head>
+  <body>
+    
+
+
+
+{% include 'RestaurantTemplatesApp/RestaurantSideBar.html' %}
+
+
+
+<div class="main-panel">
+          <div class="content-wrapper">
+
+
+
+
+
+
+
+
+            <div class="page-header">
+              <h3 class="page-title">Update User</h3>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    
+                      {% if messages %}
+    {% for message in messages %}
+     
+
+          <div class="alert alert-warning alert-dismissible fade show" role="alert" style="background-color: green;">
+  <strong style="font-size: 16px;color: white;">{{message}}</strong>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="color: red;"></button>
+</div>
+    {% endfor %}
+  {% endif %}
+                  
+
+
+
+                  </li>
+                 
+                </ol>
+              </nav>
+            </div>
+
+
+
+
+<!-- mwanzo wa row -->
+<div class="row error-message-container">
+  
+   {% for field in form %}
+        {% if field.errors %}
+        <p class="error-message">{{ field.errors.0 }}</p>
+        {% endif %}
+
+        {% endfor %}
+</div>
+<!-- mwisho wa row -->
+
+
+
+
+          
+     
+
+
+
+
+<h4 class="form-card-title">Update paid status for {{x.username}}</h4>
+
+
+{% if x.is_active == True %}
+<form class="row g-3 registration-form" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+
+<div class="col-md-4 mb-5">
+  <label for="inputEmail4" class="reg-form-label">Remove a tick to close {{x.username}} account </label><br>
+  <div class="custom-checkbox">
+    {{ form.is_active }}
+   
+  </div>
+</div>
+
+
+<div class="col-md-4 mb-5">
+  <label for="inputEmail4" class="reg-form-label">Change Paid status to False </label><br>
+  <div class="custom-checkbox">
+    {{ form.is_paid }}
+   
+  </div>
+</div>
+
+
+  <div class="col-12">
+   <button type="submit" class="btn btn-success mr-2">Save</button>
+
+  <a href="{% url 'RestaurantDeactivateUsersPage' %}" class="btn btn-danger mr-2">
+  Reset
+      </a>
+  </div>
+</form>
+
+{% else %}
+
+
+ <div class="col-12">
+  
+   <label for="inputEmail4" class="reg-form-label">Sorry!!, account for {{x.username}} is already deactivated </label><br>
+
+   <a href="{% url 'RestaurantDeactivateUsersPage' %}">
+    <button type="reset" class="btn btn-danger">Go back</button>
+    </a>
+  </div>
+
+{% endif %}
+
+
+
+
+    
+   </div>
+ </div>
+  </body>
+</html>
+
+
+{% endblock %}

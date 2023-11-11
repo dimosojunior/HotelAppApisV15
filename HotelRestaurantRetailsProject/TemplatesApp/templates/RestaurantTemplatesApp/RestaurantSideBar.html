@@ -1,0 +1,560 @@
+    {% load static %} 
+
+    <div class="container-scroller" >
+
+      <nav class="sidebar sidebar-offcanvas" id="sidebar" style="background-color: ;box-shadow: 10px 10px  10px rgba(0,255,0,0.3);">
+        
+        <ul class="nav" >
+          {% if user.profile_image %}
+
+          <li class="nav-item nav-profile" style="background-color: ;">
+            <a href="#" class="nav-link" style="background-color: ;height: 70px">
+              <div class="nav-profile-image" style="background-color: ;">
+                      <img src="{{user.profile_image.url}}" alt="profile" />
+                
+                
+                <!--change to offline or busy as needed-->
+              </div>
+              <div class="nav-profile-text d-flex flex-column pr-3" style="background-color: ;">
+                <span class="font-weight-medium mb-2" style="background-color: ;">{{user.username}}</span>
+                
+              </div>
+             
+            </a>
+          </li>
+          {% endif  %}
+
+
+      {% if user.is_superuser %}
+
+     
+
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'RestaurantDeactivateUsersPage' %}">
+              <i class="mdi mdi-brightness-6 menu-icon" style="color: yellow;font-weight: bold;"></i>
+              <span class="menu-title">Deactivate Users</span>
+            </a>
+          </li>
+
+           <li class="nav-item">
+            <a class="nav-link" href="{% url 'RestaurantactivateUsersPage' %}">
+              <i class="mdi mdi-archive menu-icon" style="color: yellow;font-weight: bold;"></i>
+              <span class="menu-title">Activate Users</span>
+            </a>
+          </li>
+
+      {% endif %}
+
+
+            {% if user.is_superuser == True %}
+         <li class="nav-item">
+            <a class="nav-link" href="{% url 'AdminHomePage' %}">
+              <i class="mdi mdi-home menu-icon" style="color: yellow;font-weight: bold;"></i>
+              <span class="menu-title">Admin Dashboard</span>
+            </a>
+          </li>
+
+          {% else %}
+
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'RestaurantHomePage' %}">
+              <i class="mdi mdi-home menu-icon" style="color: yellow;font-weight: bold;"></i>
+              <span class="menu-title">Dashboard</span>
+            </a>
+          </li>
+           {% endif %}
+
+
+
+
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'Restaurantchange-password' %}">
+              <i class="mdi mdi-audiobook menu-icon" style="color: yellow;font-weight: bold;"></i>
+              <span class="menu-title">Account Maintenance</span>
+            </a>
+          </li>
+
+
+
+
+         
+
+
+            <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#parameters" aria-expanded="false" aria-controls="parameters">
+              <i class="mdi mdi-blur-linear menu-icon" style="color: yellow;font-weight: bold;"></i>
+              <span class="menu-title">Parameter</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="parameters">
+              <ul class="nav flex-column sub-menu">
+
+
+                {% if user.is_admin == True and user.is_superuser == False %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'RestaurantSignupPage' %}">Register New User</a>
+                </li>
+
+                {% endif %}
+
+
+
+                <li class="nav-item">
+                  <a class="nav-link" href="/RestaurantApp/RestaurantUpdateUser/{{user.id}}">Merchant Configuration</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'RestaurantProcessConfigPage' %}">Process Config</a>
+                </li>
+
+                 <li class="nav-item">
+                  <a class="nav-link" href="{% url 'RestaurantBusinessUnitPage' %}">Business Unit</a>
+                </li>
+
+                  <li class="nav-item">
+                  <a class="nav-link" href="{% url 'RestaurantLocationCodePage' %}">Location Code</a>
+                </li>
+
+
+               <li class="nav-item">
+                  <a class="nav-link" href="{% url 'RestaurantStoreCodePage' %}">Store Code</a>
+                </li>
+
+
+                 <li class="nav-item">
+                  <a class="nav-link" href="{% url 'RestaurantStoreBinCodePage' %}">Store BIN Code</a>
+                </li>
+
+
+
+
+              </ul>
+            </div>
+          </li>
+
+
+
+
+
+  <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#Materials" aria-expanded="false" aria-controls="Materials">
+              <i class="mdi mdi-cake menu-icon" style="color: yellow;font-weight: bold;"></i>
+              <span class="menu-title">Material Maintenance</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="Materials">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'RestaurantUOMPage' %}">UOM</a>
+
+
+
+                </li>
+
+
+               
+
+
+       <li class="nav-itemm">
+                <a class="nav-link" data-toggle="collapse" href="#Materials" aria-expanded="false" aria-controls="Materials">
+                 <span class="menu-title" style="color: yellow">Stock Maintenance</span>
+             
+            </a>
+          </li>
+
+                   <!-- menu ya ndani -->
+
+             <ul class="nav flex-column sub-menu">
+               
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'RestaurantStoreCodePage' %}">Stock Code</a>
+                </li>
+
+                {% if user.is_admin %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'AddRestaurantStoreCode' %}">Upload Stock Code</a>
+                </li>
+                {% endif %}
+               
+
+                
+              </ul>
+
+
+           <!-- mwisho wa menu ya ndani -->
+
+                </li>
+
+
+
+
+
+               <a class="nav-link" data-toggle="collapse" href="#Materials" aria-expanded="false" aria-controls="Materials">
+                 <span class="menu-title" style="color: yellow">BOM Maintenance</span>
+              <i class="menu-arrow"></i>
+            </a>
+
+                <li class="nav-item">
+              
+
+   <!-- menu ya ndani -->
+
+             <ul class="nav flex-column sub-menu">
+               
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'RestaurantBOMPage' %}">BOM Code</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'RestaurantBOMDetailPage' %}">BOM Detail </a>
+                </li>
+               
+                {% if user.is_admin %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'AddRestaurantBOMFiles' %}">Upload BOM Code</a>
+                </li>
+                {% endif %}
+
+
+              </ul>
+
+
+           <!-- mwisho wa menu ya ndani -->
+
+
+
+
+
+
+                </li>
+              </ul>
+            </div>
+          </li>
+
+
+
+
+
+
+
+
+
+  <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#sales" aria-expanded="false" aria-controls="sales">
+              <i class="mdi mdi-chart-areaspline menu-icon" style="color: yellow;font-weight: bold;"></i>
+              <span class="menu-title">Sales & Distribution</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="sales">
+              <ul class="nav flex-column sub-menu">
+               
+
+
+               
+  <li class="nav-item">
+               <a class="nav-link"  href="{% url 'RestaurantCustomersPage' %}" aria-expanded="false" aria-controls="sales">
+                 <span class="menu-title" style="color: yellow">Customer Maintenance</span>
+             
+            </a>
+          </li>
+ 
+
+
+
+    
+       <li class="nav-item">
+               <a class="nav-link"  href="{% url 'RestaurantMyUserPage' %}" aria-expanded="false" aria-controls="sales">
+                 <span class="menu-title" style="color: yellow">Staff Maintenance</span>
+             
+            </a>
+          </li>
+
+
+
+      
+          <li class="nav-item">
+               <a class="nav-link"  href="{% url 'RestaurantSuppliersPage' %}" aria-expanded="false" aria-controls="sales">
+                 <span class="menu-title" style="color: yellow">Supplier Maintenance</span>
+             
+            </a>
+          </li>
+
+                </li>
+
+
+
+
+
+
+
+
+
+
+
+              
+
+
+
+
+
+
+
+
+
+
+
+             <li class="nav-item">
+               <a class="nav-link" data-toggle="collapse" href="#sales" aria-expanded="false" aria-controls="sales">
+                 <span class="menu-title" style="color: yellow">Product Maintenance</span>
+              <i class="menu-arrow"></i>
+            </a>
+          </li>
+
+                <li class="nav-item">
+              
+
+   <!-- menu ya ndani -->
+
+             <ul class="nav flex-column sub-menu">
+               
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'RestaurantProductsCategoriesPage' %}">Category Maintenance </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'RestaurantProductsPage' %}"> Product Maintenance </a>
+                </li>
+               
+                {% if user.is_admin %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'UploadRestaurantProductsPage' %}">Product Upload</a>
+                </li>
+                {% endif %}
+
+
+              </ul>
+
+
+           <!-- mwisho wa menu ya ndani -->
+
+
+                </li>
+
+<!-- mwisho wa menu ya nje -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- mwanzo wa menu ya nje -->
+
+                </li>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- mwanzo wa menu ya nje -->
+
+                </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+              </ul>
+            </div>
+          </li>
+
+
+
+
+
+
+
+
+
+<li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#order" aria-expanded="false" aria-controls="order">
+              <i class="mdi mdi-cart-outline menu-icon" style="color: yellow;font-weight: bold;"></i>
+              <span class="menu-title">Order</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="order">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'RestaurantOrdersPage' %}">Orders Sheet</a>
+                </li>
+              
+              </ul>
+            </div>
+          </li>
+
+
+
+
+
+
+
+
+
+
+<li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#events" aria-expanded="false" aria-controls="events">
+              <i class="mdi mdi-briefcase-upload menu-icon" style="color: yellow;font-weight: bold;"></i>
+              <span class="menu-title">Event</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="events">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'RestaurantEventCodePage' %}">Event Code</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'RestaurantEventAlertPage' %}">Event Alert</a>
+                </li>
+               
+              </ul>
+            </div>
+          </li>
+
+
+
+
+
+
+
+
+
+
+<li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#Reports" aria-expanded="false" aria-controls="Reports">
+              <i class="mdi mdi-domain menu-icon" style="color: yellow;font-weight: bold;"></i>
+              <span class="menu-title">Report</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="Reports">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item">
+                  <a class="nav-link" href="">Parameter 1</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="">Parameter 2</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="">Parameter 3</a>
+                </li>
+              </ul>
+            </div>
+          </li>
+
+
+
+
+
+
+
+
+<li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#VAT" aria-expanded="false" aria-controls="VAT">
+              <i class="mdi mdi-eject menu-icon" style="color: yellow;font-weight: bold;"></i>
+              <span class="menu-title">VAT</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="VAT">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item">
+                  <a class="nav-link" href="">Parameter 1</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="">Parameter 2</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="">Parameter 3</a>
+                </li>
+              </ul>
+            </div>
+          </li>
+
+
+
+
+ <li class="nav-item" style="bottom: 0px;position: absolute;color: white;border-radius: 10px;">
+            <a class="nav-link" href="{% url 'LogoutPage' %}" style="">
+              <i class="mdi mdi-account-off menu-icon" style="color: yellow;font-weight: bold;"></i>
+              <span class="menu-title" style="padding-right: 10px;font-size: 18px;">Logout</span>
+            </a>
+          </li>
+
+
+                </ul>
+
+
+
+
+              <div class="container-fluid page-body-wrapper">
+       
+
+        <nav class="navbar col-lg-12 col-12 p-lg-0 fixed-top d-flex flex-row">
+          <div class="navbar-menu-wrapper d-flex align-items-stretch justify-content-between">
+
+
+            
+            <button class="navbar-toggler navbar-toggler align-self-center mr-2" type="button" data-toggle="minimize">
+              <i class="mdi mdi-menu" style="color: black;font-weight: bold;"></i>
+            </button>
+
+
+            
+
+         {% if user.profile_image %}
+
+            <ul class="navbar-nav navbar-nav-right ml-lg-auto">
+              <li class="nav-item dropdown d-none d-xl-flex border-0">
+              
+              </li>
+              <li class="nav-item nav-profile dropdown border-0">
+                <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-toggle="dropdown">
+                  
+                  <img class="nav-profile-img mr-2" alt="" src="{{user.profile_image.url}}" />
+                  
+                  <span class="profile-name">{{user.username}}</span>
+                </a>
+                <div class="dropdown-menu navbar-dropdown w-100" aria-labelledby="profileDropdown">
+                  
+                  <a class="dropdown-item" href="{% url 'LogoutPage' %}">
+                    <i class="mdi mdi-logout mr-2 text-primary"></i> Signout </a>
+                </div>
+              </li>
+            </ul>
+            {% endif %}
+
+            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+              <span class="mdi mdi-menu"></span>
+            </button>
+          </div>
+        </nav>
+
+
+</div>
+      </nav>

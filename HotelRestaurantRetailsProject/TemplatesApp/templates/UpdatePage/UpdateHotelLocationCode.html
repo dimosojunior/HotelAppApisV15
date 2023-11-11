@@ -1,0 +1,262 @@
+
+{% extends 'TemplatesApp/base.html' %}
+{% load static %}
+
+
+
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Location</title>
+
+
+         <!---jqeury css link---->
+     <link rel="stylesheet" href="{% static 'assets/jqueryui/jquery-ui.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/jqueryui/jquery-ui.structure.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/jqueryui/jquery-ui.structure.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/jqueryui/jquery-ui.theme.min.css' %}">
+     <link rel="stylesheet" href="{% static 'assets/jqueryui/jquery-ui.theme.css' %}">
+
+ 
+
+
+    <style type="text/css">
+
+ textarea{
+
+  padding: 10px;
+  border-radius:10px;
+  border:1px solid green;
+  width:90%;
+  height: 150px;
+
+ }
+
+    </style>
+ 
+    
+  </head>
+  <body>
+    
+
+
+
+{% include 'TemplatesApp/sideBar.html' %}
+
+
+
+
+<div class="main-panel">
+          <div class="content-wrapper">
+
+
+
+
+
+
+
+
+            <div class="page-header">
+              <h3 class="page-title">Change Location Code</h3>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    
+                      {% if messages %}
+    {% for message in messages %}
+     
+
+          <div class="alert alert-warning alert-dismissible fade show" role="alert" style="background-color: green;">
+  <strong style="font-size: 16px;color: white;">{{message}}</strong>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="color: red;"></button>
+</div>
+    {% endfor %}
+  {% endif %}
+                  
+
+
+
+                  </li>
+                 
+                </ol>
+              </nav>
+            </div>
+
+
+
+
+
+
+
+
+          
+       
+
+<form class="row g-3 registration-form" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+ 
+
+
+
+
+  
+  <div class="col-md-4">
+    <label for="inputPassword4" class="form-label">Code </label><br>
+    {{form.Code}}
+  </div>
+
+
+
+  <div class="col-md-4">
+    <label for="inputPassword4" class="form-label">Status </label><br>
+    {{form.Status}}
+  </div>
+
+  <div class="col-md-4">
+    <label for="inputPassword4" class="form-label">Business Unit </label><br>
+    {{form.BusinessUnit}}
+  </div>
+
+
+<div class="col-md-6">
+    <label for="inputPassword4" class="form-label">Description </label><br>
+    {{form.Description}}
+  </div>
+
+
+
+  <div class="col-12">
+
+    <button type="submit" class="btn btn-primary mr-2">Save</button>
+ <a href="{% url 'HotelLocationCodePage' %}" class="btn btn-success mr-2">
+  Reset
+      </a>
+
+   <a href="{% url 'HotelLocationCodePage' %}" class="btn btn-danger mr-2">
+  Cancel
+      </a>
+
+  </div>
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+   </div>
+ </div>
+
+
+
+
+
+<!--jquery code for autocomplete javascriptcode---->
+<script src="{% static 'assets/jqueryui/external/jquery/jquery.js' %}" type="text/javascript"></script>
+<script src="{% static 'assets/jqueryui/jquery-ui.js' %}" type="text/javascript"></script>
+
+
+   <script >
+  $( function() {
+    var availableTags = [
+      "ActionScript",
+      "AppleScript",
+      "Asp",
+      "BASIC",
+      "C",
+      "C++",
+      "Clojure",
+      "COBOL",
+      "ColdFusion",
+      "Erlang",
+      "Fortran",
+      "Groovy",
+      "Haskel",
+      "Java",
+      "JavaScript",
+      "Lisp",
+      "Perl",
+      "PHP",
+      "Python",
+      "Ruby",
+      "Scala",
+      "Scheme"
+      
+
+    ];
+
+   $( "#customer" ). autocomplete({
+    //source: availableTags,
+    source: "{% url 'Hotel_search_customer_autocomplete' %}",
+  });
+
+
+  } );
+  
+  </script>
+
+   <script >
+  $( function() {
+    var availableTags = [
+      "ActionScript",
+      "AppleScript",
+      "Asp",
+      "BASIC",
+      "C",
+      "C++",
+      "Clojure",
+      "COBOL",
+      "ColdFusion",
+      "Erlang",
+      "Fortran",
+      "Groovy",
+      "Haskel",
+      "Java",
+      "JavaScript",
+      "Lisp",
+      "Perl",
+      "PHP",
+      "Python",
+      "Ruby",
+      "Scala",
+      "Scheme"
+      
+
+    ];
+
+   $( "#address" ). autocomplete({
+    //source: availableTags,
+    source: "{% url 'Hotel_search_address_autocomplete' %}",
+  });
+
+
+  } );
+
+</script>
+
+  </body>
+</html>
+
+
+{% endblock %}

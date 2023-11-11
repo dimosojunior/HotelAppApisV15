@@ -1,0 +1,280 @@
+
+{% extends 'TemplatesApp/base.html' %}
+{% load static %}
+
+
+
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Account</title>
+
+    <style type="text/css">
+
+  
+    </style>
+    
+  </head>
+  <body>
+    
+
+
+
+{% include 'RestaurantTemplatesApp/RestaurantSideBar.html' %}
+
+
+
+<div class="main-panel">
+          <div class="content-wrapper">
+
+
+
+
+
+
+
+
+            <div class="page-header">
+              <h3 class="page-title">Merchant Configuration</h3>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    
+                      {% if messages %}
+    {% for message in messages %}
+     
+
+          <div class="alert alert-warning alert-dismissible fade show" role="alert" style="background-color: green;">
+  <strong style="font-size: 16px;color: white;">{{message}}</strong>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="color: red;"></button>
+</div>
+    {% endfor %}
+  {% endif %}
+                  
+
+
+
+                  </li>
+                 
+                </ol>
+              </nav>
+            </div>
+
+
+
+
+<!-- mwanzo wa row -->
+<div class="row error-message-container">
+  
+   {% for field in form %}
+        {% if field.errors %}
+        <p class="error-message">{{ field.errors.0 }}</p>
+        {% endif %}
+
+        {% endfor %}
+</div>
+<!-- mwisho wa row -->
+
+
+
+
+          
+        <h4 class="form-card-title">Receipt Header Configuration</h4>
+                           
+
+
+<form class="row g-3 registration-form" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="col-md-4">
+    <label for="inputEmail4" class="reg-form-label">Email </label><br>
+    {{form.email}}
+  </div>
+  <div class="col-md-4">
+    <label for="inputPassword4" class="form-label">Username </label><br>
+    {{form.username}}
+  </div>
+
+
+
+ <div class="col-md-4">
+    <label for="inputEmail4" class="reg-form-label">Address Line 1 </label><br>
+    {{form.AddressLine1}}
+  </div>
+  <div class="col-md-4">
+    <label for="inputPassword4" class="form-label">Address Line 2 </label><br>
+    {{form.AddressLine2}}
+  </div>
+
+
+
+
+
+
+   <div class="col-md-4">
+    <label for="inputEmail4" class="reg-form-label">User ID </label><br>
+    {{form.UserRole}}
+  </div>
+  <div class="col-md-4">
+    <label for="inputPassword4" class="form-label">Company Name </label><br>
+    {{form.company_name}}
+  </div>
+
+
+
+
+   <div class="col-md-4">
+    <label for="inputEmail4" class="reg-form-label">Telephone Number </label><br>
+    {{form.phone}}
+  </div>
+  <div class="col-md-4">
+    <label for="inputPassword4" class="form-label">VAT No </label><br>
+    {{form.VatNo}}
+  </div>
+
+
+
+
+
+
+
+{% if user.is_admin %}
+<h4 class="form-card-title">User Role</h4>
+
+
+<div class="col-md-3">
+  <label for="inputEmail4" class="reg-form-label">Restaurant User ? </label><br>
+  <div class="custom-checkbox">
+    {{ form.is_restaurant_user }}
+    <!-- <label for="{{ form.is_hotel_user.id_for_label }}">Hotel User</label>
+ -->  </div>
+</div>
+
+<div class="col-md-3">
+  <label for="inputEmail4" class="reg-form-label">Waiter ? </label><br>
+  <div class="custom-checkbox">
+    {{ form.is_waiter }}
+   
+  </div>
+</div>
+
+<div class="col-md-3">
+  <label for="inputEmail4" class="reg-form-label">Supervisor ? </label><br>
+  <div class="custom-checkbox">
+    {{ form.is_supervisor }}
+  
+  </div>
+</div>
+
+
+
+<div class="col-md-3">
+  <label for="inputEmail4" class="reg-form-label">Paid ? </label><br>
+  <div class="custom-checkbox">
+    {{ form.is_paid }}
+  
+  </div>
+</div>
+
+{% endif %}
+
+<!--  <div class="col-md-4">
+    <label for="inputPassword4" class="form-label">Password </label><br>
+    {{form.password1}}
+  </div>
+    <div class="col-md-4">
+    <label for="inputEmail4" class="reg-form-label">Confirm Password </label><br>
+    {{form.password2}}
+  </div>
+ 
+ -->
+
+ 
+  <h4 class="form-card-title">System Configuration</h4>
+
+
+<div class="col-md-4">
+    <label for="inputPassword4" class="form-label">VAT Enabled </label><br>
+    {{form.VatEnabled}}
+  </div>
+    <div class="col-md-4">
+    <label for="inputEmail4" class="reg-form-label">VAT Rate </label><br>
+    {{form.VatRate}}
+  </div>
+
+
+
+
+  <div class="col-md-4">
+    <label for="inputPassword4" class="form-label">Approved Needed? </label><br>
+    {{form.ApprovedNeeded}}
+  </div>
+    <div class="col-md-4">
+    <label for="inputEmail4" class="reg-form-label">Accounting System </label><br>
+    {{form.AccountSystem}}
+  </div>
+
+
+
+
+
+  <h4 class="form-card-title">Terminal Configuration</h4>
+
+
+  <div class="col-md-4">
+    <label for="inputPassword4" class="form-label">Sign-In Timeout </label><br>
+    {{form.SigninTimeout}}
+  </div>
+    <div class="col-md-4">
+    <label for="inputEmail4" class="reg-form-label">Print Order Items </label><br>
+    {{form.PrintOrderItems}}
+  </div>
+
+
+   <div class="col-md-4">
+    <label for="inputPassword4" class="form-label">Print Confirmed Order Slip? </label><br>
+    {{form.PrintConfirmedOrderSlip}}
+  </div>
+    <div class="col-md-4">
+    <label for="inputEmail4" class="reg-form-label">Grid Dimensions </label><br>
+    {{form.GridDimensions}}
+  </div>
+
+
+
+
+
+   <h4 class="form-card-title">Inventory Management Configuration</h4>
+  <div class="col-md-4">
+    <label for="inputEmail4" class="reg-form-label">Stock Closing Time </label><br>
+    {{form.StockClosingTime}}
+  </div>
+
+
+
+  <div class="col-12">
+   <button type="submit" class="btn btn-success mr-2">Submit</button>
+    <button type="reset" class="btn btn-danger">Reset</button>
+  </div>
+</form>
+
+
+
+
+
+
+
+
+    
+   </div>
+ </div>
+  </body>
+</html>
+
+
+{% endblock %}

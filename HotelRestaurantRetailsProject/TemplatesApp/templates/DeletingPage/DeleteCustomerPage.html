@@ -1,0 +1,55 @@
+{% extends 'TemplatesApp/base.html' %}
+{% load static %}
+
+
+
+
+{% block content %}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title></title>
+</head>
+<body>
+
+	<div class="container-fluid" style="margin-top: 5px;margin-bottom: 2cm;">
+
+<form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+
+
+<!---mwanzo wa card--->
+<div class="card text-center" style="border: 2px solid black;border-radius: 15px;">
+ 
+
+       <p class="card-text" style="color: red;font-weight: bold;font-size: 22px;">
+        Are you sure do you want to delete {{x.CustomerFullName}} ?
+       </p>
+      <a href="{% url 'HotelCustomersPage' %}" class="btn btn-primary" style="margin-right: 10px; margin-bottom: 15px;font-size: 18px;width: 30%;padding: 10px; border-radius: 10px;border-bottom-right-radius: 0px;">Cancel</a>
+
+    <a href="" >
+    <button type="submit" class="btn btn-danger" style="margin-bottom: 15px;font-size: 18px;width: 30%;padding: 10px; border-radius: 10px;border-bottom-right-radius: 0px;">
+    	Yes
+    	
+    </button></a>
+
+  </div>
+  
+</div>
+
+</form>
+<!---mwisho wa card---->
+
+
+
+</div>
+
+</body>
+</html>
+
+{% endblock %}
